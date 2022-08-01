@@ -25,21 +25,24 @@ int main()
   but there are other libraries who make this available for you
   */  
   glfwMakeContextCurrent(window);
-
-  /* Loop until the user closes the window */
-  while (!glfwWindowShouldClose(window))
+  GLenum errorNumber = glewInit();
+  if (errorNumber != GLEW_OK)
   {
-    /* Render here */
-    glClear(GL_COLOR_BUFFER_BIT);
-    glBegin(GL_TRIANGLES);
-    glVertex2f(-1, -1);
-    glVertex2f(0, 1);
-    glVertex2f(1, -1);
-    glEnd();
-    /* Swap front and back buffers */
-    glfwSwapBuffers(window);
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
+    {
+      /* Render here */
+      glClear(GL_COLOR_BUFFER_BIT);
+      glBegin(GL_TRIANGLES);
+      glVertex2f(-1, -1);
+      glVertex2f(0, 1);
+      glVertex2f(1, -1);
+      glEnd();
+      /* Swap front and back buffers */
+      glfwSwapBuffers(window);
 
-    /* Poll for and process events */
-    glfwPollEvents();
+      /* Poll for and process events */
+      glfwPollEvents();
+    }
   }
 }
