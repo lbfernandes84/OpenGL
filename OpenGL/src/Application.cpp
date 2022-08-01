@@ -17,7 +17,12 @@ int main()
     return -1;
   }
 
-  /* Make the window's context current */
+  /* 
+  Make the window's context current - 
+  This is very important once to have the OpenGL functions available
+  you must create a valid context. The bellow function is comming from GLFW
+  but there are other libraries who make this available for you
+  */
   glfwMakeContextCurrent(window);
 
   /* Loop until the user closes the window */
