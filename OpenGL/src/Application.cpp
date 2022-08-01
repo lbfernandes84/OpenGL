@@ -1,4 +1,5 @@
 #include <iostream>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 int main()
@@ -22,7 +23,7 @@ int main()
   This is very important once to have the OpenGL functions available
   you must create a valid context. The bellow function is comming from GLFW
   but there are other libraries who make this available for you
-  */
+  */  
   glfwMakeContextCurrent(window);
 
   /* Loop until the user closes the window */
