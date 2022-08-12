@@ -28,6 +28,17 @@ int main()
   GLenum errorNumber = glewInit();
   if (errorNumber != GLEW_OK)
   {
+    float bufferData[6] = {
+      -0.5f, -0.5f,
+      0.0f, 0.5f,
+      0.5f, 0.5f,
+    };
+
+    unsigned int bufferID;
+    glGenBuffers(1, &bufferID);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), bufferData, GL_STATIC_DRAW);
+    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
