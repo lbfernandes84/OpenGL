@@ -92,7 +92,8 @@ int main()
     //- Three normals points(Norm.)
     //So in the array above we have 3 vertex.
     //Fixing the example lets examinate what parameters we must set to define attributes
-    //- GLuint index: The index on the buffer of the attribute, in our case 0
+    //- GLuint index: The index on the buffer of the attribute, as we have 3 differents attributes in the example array and the
+    //  coordinates is the first attribute, the index is 0
     //- GLint size: Is nothing to do with size of the attribute in bytes, this the count of how many components that attribute has
     //  * The size is a value between 1-4. Example: As we are defining a 2-coordinates attribute, this value is 2
     //  * If we are using an rgba attribute this value would be 4
@@ -101,14 +102,15 @@ int main()
     //- GlEnum stride: This is the number in bytes of how much data must be read to get next attribute
     //  *In that hipotetic array of floats we have 3 * float coords(12 bytes) + 3 * float texture (12 bytes) + 3 * float normals (12 bytes) = 36 bytes
     //  *In our array we have just the coordinates so, to get the next attribute(positions)we set a stride as 2 floats(8 bytes)
-    //- GlEnum pointer: Especifies what position in the buffer the attribute starts
+    //- GlEnum pointer: Especifies what position in the buffer the attribute starts in bytes
     //  *In the example array, as the first coordinate is the first position on that, the value for that parameter is 0
-    //  *If instead coordinates, we are defining the normals as attribute, this value would be 6
+    //  *If instead coordinates, we are defining the normals as attribute, this value would be 3*4(12 bytes)
     //    + This parameter must be a pointer, so for values different than 0 it must be cast as void(*)
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     
-    //For each attribute we must call the function
+    //For each attribute we must call the function separately
+    // There is macros to use in order to calculate the offsets used in stride and pointer
     //--------------------------------------------------------------------------------------------------------------------------
 
     /* Loop until the user closes the window */
