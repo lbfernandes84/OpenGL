@@ -105,14 +105,33 @@ int main()
     //- GlEnum pointer: Especifies what position in the buffer the attribute starts in bytes
     //  *In the example array, as the first coordinate is the first position on that, the value for that parameter is 0
     //  *If instead coordinates, we are defining the normals as attribute, this value would be 3*4(12 bytes)
-    //    + This parameter must be a pointer, so for values different than 0 it must be cast as void(*)
+    //    + This parameter must be a pointer, so for values different than 0 it must be cast as (const void*)
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     
     //For each attribute we must call the function separately
     // There is macros to use in order to calculate the offsets used in stride and pointer
     //--------------------------------------------------------------------------------------------------------------------------
-
+    //Enable buffer array
+    glEnableVertexAttribArray(bufferID);
+    //--------------------------------------------------------------------------------------------------------------------------
+    //- Shaders: How they work
+    // A shader is a program that runs in GPU
+    // - Its a block of code that can be compiled and executed on GPU
+    // - We need programs to run on GPU in order to command it and how things must be presented
+    //  * A lot things are faster to run in GPU
+    //    + Lighting is an example
+    //There are mainly two types of shaders
+    //  - Vertex shaders
+    //    * Responsible to put all the vertex on the screen
+    //    * Called for every vertex in the buffer
+    //    * Tell the position of the screen thar vertex must be set
+    //  - Fragment/pixel shaders
+    //    * Responsible to put color/lightning for the pixels filled with your vertex
+    //      + The fragment shader is called for every pixel filled. This means if you have a big triangle on the screen
+    //        and to fill it with pixels it would take 450000 of them, the fragment shader would be called 450000 times
+    //      + Obvsiouly, the developer must be aware of the performance of writing pixel shaders
+    // The rendering pipeline is: set and configure buffers->Send it to vertex shader->Send it to fragment shader
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
