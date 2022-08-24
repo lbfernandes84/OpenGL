@@ -62,6 +62,7 @@ int main()
     //After tell OpenGL which buffer we should use, its necessary to put data into it. You can pass your data once you know what 
     //is going to be used but also you can pass the data as you process runs.
     //This is our case considering we already have created a triangle in bufferID. Following is the function used to do that
+    
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), bufferData, GL_STATIC_DRAW);
     
     //void glBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
@@ -73,6 +74,43 @@ int main()
     //  GL_STATIC_DRAW: The data store contents will be modified once and used many times. That is most adequate when the data will be static and drawn every frame
     //  GL_DYNAMIC_DRAW: The data store contents will be modified repeatedly and used many times. That is most adequate when the data will be changed and drawn every frame
     //--------------------------------------------------------------------------------------------------------------------------
+    //How to interpret buffers:  
+    //The first thing we must clarify is what a vertex is. For OpenGL, a vertex is a point of the geometry which is going to be presented on the screen
+    //This points on the screen can be more than just positions,it could me more than that, for example, textures, normals and etc
+    //With that in mind, we need to tell OpenGL how the buffer of memory must be interpretaded telling what parts of buffer represents. 
+    //We can do it with the function bellow. This function defines how attributes of vertex are separated.
+    //
+    //void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid* pointer);
+    //
+    // In order to understand how define the attributes of our vertex, lets simulate a buffer which is an array of floats like drawn below:
+    //float vertex[27]:
+    //|_|_|_|_|_|_|_|_|_|||_|_|_|_|_|_|_|_|_|||_|_|_|_|_|_|_|_|_||
+    //Coords|Text.|Norm.||Coords|Text.|Norm.||Coords|Text.|Norm.||
+    //So a vertex are composed by:
+    //- Three coordinates (Coords)
+    //- Three texture points(Text.)
+    //- Three normals points(Norm.)
+    //So in the array above we have 3 vertex.
+    //Fixing the example lets examinate what parameters we must set to define attributes
+    //- GLuint index: The index on the buffer of the attribute, in our case 0
+    //- GLint size: Is nothing to do with size of the attribute in bytes, this the count of how many components that attribute has
+    //  * The size is a value between 1-4. Example: As we are defining a 2-coordinates attribute, this value is 2
+    //  * If we are using an rgba attribute this value would be 4
+    //- GlEnum Type: The type of each component of attribute, for our case is float (Check flags in documentation)
+    //- GlEnum normalized: A flag if our vertex attribute is normalized (between 0 and 1). For our case GL_FALSE (See flags in documentation)
+    //- GlEnum stride: This is the number in bytes of how much data must be read to get next attribute
+    //  *In that hipotetic array of floats we have 3 * float coords(12 bytes) + 3 * float texture (12 bytes) + 3 * float normals (12 bytes) = 36 bytes
+    //  *In our array we have just the coordinates so, to get the next attribute(positions)we set a stride as 2 floats(8 bytes)
+    //- GlEnum pointer: Especifies what position in the buffer the attribute starts
+    //  *In the example array, as the first coordinate is the first position on that, the value for that parameter is 0
+    //  *If instead coordinates, we are defining the normals as attribute, this value would be 6
+    //    + This parameter must be a pointer, so for values different than 0 it must be cast as void(*)
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    
+    //For each attribute we must call the function
+    //--------------------------------------------------------------------------------------------------------------------------
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
